@@ -34,7 +34,7 @@ public class BinPackingProcessor {
 //                i--;
 //            }
 //        }
-//
+//https://www.sanfoundry.com/java-program-implement-bin-packing-algorithm/
 //        System.out.println("Number of bins required: "+binCount);
 //    }
 
