@@ -1,11 +1,17 @@
 package com.bin.packing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Duration;
-import javax.persistence.*;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
-@Document
+@Entity
 @Table(name = "activity", uniqueConstraints = {@UniqueConstraint(columnNames = "id")})
 public class Activity {
 
@@ -18,6 +24,11 @@ public class Activity {
     private Duration length;
 
     private ActivityType type;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="teamId", nullable=true)
+    private Team team;
 
     public Long getId() {
         return id;
@@ -43,10 +54,42 @@ public class Activity {
         this.length = length;
     }
 
-    public Activity() {}
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public boolean isLunchActivity() {
+        return this.type.equals(ActivityType.LUNCH);
+    }
+
+    public boolean isMotivationActivity() {
+        return this.type.equals(ActivityType.MOTIVATION);
+    }
+
+    public Activity() {
+    }
 
     public Activity(String name, Duration length) {
         this.name = name;
         this.length = length;
+        this.type = ActivityType.NORMAL;
+    }
+
+    public Activity(String name, Duration length, ActivityType type) {
+        this.name = name;
+        this.length = length;
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "name='" + name + '\'' +
+                ", length=" + length +
+                '}';
     }
 }

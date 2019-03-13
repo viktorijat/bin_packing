@@ -2,7 +2,7 @@ package com.bin.packing.model;
 
 public enum ActivityType {
 
-    NORMAL(""),
+    NORMAL("Normal"),
     LUNCH("Lunch Break"),
     MOTIVATION("Staff Motivation Presentation");
 

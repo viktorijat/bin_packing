@@ -1,13 +1,17 @@
 package com.bin.packing.repository;
 
 import com.bin.packing.model.Activity;
+import com.bin.packing.model.ActivityType;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DataLoader implements ApplicationRunner {
 
+    @Autowired
     ActivityRepository activityRepository;
 
     @Override
@@ -32,10 +36,6 @@ public class DataLoader implements ApplicationRunner {
         activityRepository.save(new Activity("New Zealand Haka", Duration.ofMinutes(30)));
         activityRepository.save(new Activity("Time Tracker", Duration.ofMinutes(15)));
         activityRepository.save(new Activity("Indiano Drizzle", Duration.ofMinutes(45)));
-        activityRepository.save(new Activity("Lunch Break", Duration.ofMinutes(60)));
-        activityRepository.save(new Activity("Staff Motivation Presentation", Duration.ofMinutes(60)));
-
-
     }
 
     @Autowired

@@ -1,5 +1,11 @@
 package com.bin.packing.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,18 +16,115 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "team", uniqueConstraints = {@UniqueConstraint(columnNames = "competition_id")})
+@Table(name = "team", uniqueConstraints = {@UniqueConstraint(columnNames = "teamId")})
 public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teamId;
 
-    @OneToMany(mappedBy = "activity")
-    private List<Activity> activitiesBeforeLunch;
+    @OneToMany(mappedBy = "team")
+    private List<Activity> activities;
 
-    @OneToMany(mappedBy = "activity")
-    private List<Activity> activitiesAfterLunch;
+    @JsonIgnore
+    private LocalTime startOfDay;
+
+    @JsonIgnore
+    private LocalTime currentTime;
+
+    @JsonIgnore
+    private LocalTime endOfDay;
+
+    @JsonIgnore
+    private LocalTime startOfLunchBreak;
+
+    @JsonIgnore
+    private Duration activitiesTotalTime;
+
 
     public Team() {}
+
+    public Team(LocalTime startOfDay, LocalTime currentTime, LocalTime endOfDay, LocalTime startOfLunchBreak, Duration activitiesTotalTime) {
+        this.startOfDay = startOfDay;
+        this.currentTime = currentTime;
+        this.endOfDay = endOfDay;
+        this.startOfLunchBreak = startOfLunchBreak;
+        this.activitiesTotalTime = activitiesTotalTime;
+    }
+
+    public void addActivity(Activity activity) {
+        List<Activity> activities = this.getActivities();
+        if (activities == null) {
+            activities = new ArrayList<>();
+        }
+        activities.add(activity);
+        this.setCurrentTime(this.getCurrentTime().plus(activity.getLength()));
+        this.setActivitiesTotalTime(this.getActivitiesTotalTime().plus(activity.getLength()));
+        this.setActivities(activities);
+    }
+
+    public boolean isLunchTime() {
+        return startOfLunchBreak.isBefore(this.currentTime);
+    }
+
+    public boolean isEndOfDay() {
+        return endOfDay.isBefore(startOfDay.plus(activitiesTotalTime));
+    }
+
+    public LocalTime getLocalDateTime() {
+        return startOfLunchBreak;
+    }
+
+    public Duration getActivitiesTotalTime() {
+        return activitiesTotalTime;
+    }
+
+    public void setLocalDateTime(LocalTime startOfLunchBreak) {
+        this.startOfLunchBreak = startOfLunchBreak;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
+    public void setActivitiesTotalTime(Duration activitiesTotalTime) {
+        this.activitiesTotalTime = activitiesTotalTime;
+    }
+
+    public LocalTime getEndOfDay() {
+        return endOfDay;
+    }
+
+    public void setEndOfDay(LocalTime endOfDay) {
+        this.endOfDay = endOfDay;
+    }
+
+    public LocalTime getStartOfDay() {
+        return startOfDay;
+    }
+
+    public void setStartOfDay(LocalTime startOfDay) {
+        this.startOfDay = startOfDay;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamId=" + teamId +
+                ", activities=" + activities +
+                ", activitiesTotalTime=" + activitiesTotalTime +
+                '}';
+    }
+
+    public LocalTime getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
+    }
 }
