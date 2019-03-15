@@ -19,7 +19,7 @@ public class DataLoader implements ApplicationRunner {
         activityRepository.save(new Activity("Duck Herding", Duration.ofMinutes(60)));
         activityRepository.save(new Activity("Archery", Duration.ofMinutes(45)));
         activityRepository.save(new Activity("Learning Magic Tricks", Duration.ofMinutes(40)));
-        activityRepository.save(new Activity("Laser Clay Shooting", Duration.ofMinutes(60)));
+        activityRepository.save(new Activity("Laser Clay Shooting", Duration.ofMinutes(50)));
         activityRepository.save(new Activity("Human Table Football", Duration.ofMinutes(30)));
         activityRepository.save(new Activity("Buggy Driving", Duration.ofMinutes(30)));
         activityRepository.save(new Activity("Salsa & Pickles", Duration.ofMinutes(15)));

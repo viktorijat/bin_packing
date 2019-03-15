@@ -2,6 +2,8 @@ package com.bin.packing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.TemporalUnit;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 
 @Entity
@@ -22,6 +25,8 @@ public class Activity {
     private String name;
 
     private Duration length;
+
+    private LocalTime startTime;
 
     private ActivityType type;
 
@@ -79,17 +84,15 @@ public class Activity {
         this.type = ActivityType.NORMAL;
     }
 
-    public Activity(String name, Duration length, ActivityType type) {
+    public Activity(String name, Duration length, ActivityType type, LocalTime startTime) {
         this.name = name;
         this.length = length;
         this.type = type;
+        this.startTime = startTime;
     }
 
     @Override
     public String toString() {
-        return "Activity{" +
-                "name='" + name + '\'' +
-                ", length=" + length +
-                '}';
+        return startTime + " : " + name + " " + length.toMinutes();
     }
 }

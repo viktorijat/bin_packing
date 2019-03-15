@@ -38,13 +38,29 @@ public class Team {
     @JsonIgnore
     private LocalTime startOfLunchBreak;
 
+    public LocalTime getStartOfLunchBreak() {
+        return startOfLunchBreak;
+    }
+
+    public void setStartOfLunchBreak(LocalTime startOfLunchBreak) {
+        this.startOfLunchBreak = startOfLunchBreak;
+    }
+
     @JsonIgnore
     private Duration activitiesTotalTime;
 
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
 
     public Team() {}
 
-    public Team(LocalTime startOfDay, LocalTime currentTime, LocalTime endOfDay, LocalTime startOfLunchBreak, Duration activitiesTotalTime) {
+    public Team(Long teamId, LocalTime startOfDay, LocalTime currentTime, LocalTime endOfDay, LocalTime startOfLunchBreak, Duration activitiesTotalTime) {
+        this.teamId = teamId;
         this.startOfDay = startOfDay;
         this.currentTime = currentTime;
         this.endOfDay = endOfDay;
@@ -64,7 +80,8 @@ public class Team {
     }
 
     public boolean isLunchTime() {
-        return startOfLunchBreak.isBefore(this.currentTime);
+        System.out.println(startOfLunchBreak + " - " + currentTime);
+        return startOfLunchBreak.isBefore(this.currentTime) || startOfLunchBreak.plusHours(1).isAfter(this.currentTime);
     }
 
     public boolean isEndOfDay() {
@@ -126,5 +143,17 @@ public class Team {
 
     public void setCurrentTime(LocalTime currentTime) {
         this.currentTime = currentTime;
+    }
+
+    public boolean isBeforeLunchBreak(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
+    }
+
+    public boolean isBeforeEndOfDay(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getEndOfDay());
+    }
+
+    public void isViableActivityTime(Activity activity) {
+        currentTime.plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
     }
 }
