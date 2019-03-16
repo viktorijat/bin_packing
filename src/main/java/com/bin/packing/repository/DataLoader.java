@@ -1,7 +1,6 @@
 package com.bin.packing.repository;
 
 import com.bin.packing.model.Activity;
-import com.bin.packing.model.ActivityType;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -26,7 +25,7 @@ public class DataLoader implements ApplicationRunner {
         activityRepository.save(new Activity("2-wheeled Segways", Duration.ofMinutes(45)));
         activityRepository.save(new Activity("Viking Axe Throwing", Duration.ofMinutes(60)));
         activityRepository.save(new Activity("Giant Puzzle Dinosaurs", Duration.ofMinutes(30)));
-        activityRepository.save(new Activity("Giant Digital Graffiti", Duration.ofMinutes(60)));
+        activityRepository.save(new Activity("Giant Digital Graffiti", Duration.ofMinutes(45)));
         activityRepository.save(new Activity("Cricket 2020", Duration.ofMinutes(60)));
         activityRepository.save(new Activity("Wine Tasting", Duration.ofMinutes(15)));
         activityRepository.save(new Activity("Arduino Bonanza", Duration.ofMinutes(30)));

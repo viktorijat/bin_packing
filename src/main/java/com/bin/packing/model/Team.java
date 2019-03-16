@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -80,7 +81,6 @@ public class Team {
     }
 
     public boolean isLunchTime() {
-        System.out.println(startOfLunchBreak + " - " + currentTime);
         return startOfLunchBreak.isBefore(this.currentTime) || startOfLunchBreak.plusHours(1).isAfter(this.currentTime);
     }
 
@@ -149,11 +149,26 @@ public class Team {
         return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
     }
 
-    public boolean isBeforeEndOfDay(Activity activity) {
-        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getEndOfDay());
+    public boolean timeIsBeforeLunchBreak() {
+        return this.getCurrentTime().isBefore(this.getStartOfLunchBreak());
+
     }
 
-    public void isViableActivityTime(Activity activity) {
-        currentTime.plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
+    public boolean isAfterLunchBreakAndBeforeEndOfDay(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isAfter(this.getStartOfLunchBreak().plusMinutes(30)) &&
+                isBeforeEndOfDay(activity);
+    }
+
+    public boolean isAfterLunchBreakAndBeforeEndOfDay() {
+        return this.getCurrentTime().isAfter(this.getStartOfLunchBreak().plusMinutes(30)) &&
+                isBeforeEndOfDay();
+    }
+
+    public boolean isBeforeEndOfDay() {
+        return this.getCurrentTime().isBefore(this.getEndOfDay());
+    }
+
+    public boolean isBeforeEndOfDay(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getEndOfDay());
     }
 }

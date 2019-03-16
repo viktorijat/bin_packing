@@ -28,8 +28,6 @@ public class Activity {
 
     private LocalTime startTime;
 
-    private ActivityType type;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="teamId", nullable=true)
@@ -67,27 +65,17 @@ public class Activity {
         this.team = team;
     }
 
-    public boolean isLunchActivity() {
-        return this.type.equals(ActivityType.LUNCH);
-    }
-
-    public boolean isMotivationActivity() {
-        return this.type.equals(ActivityType.MOTIVATION);
-    }
-
     public Activity() {
     }
 
     public Activity(String name, Duration length) {
         this.name = name;
         this.length = length;
-        this.type = ActivityType.NORMAL;
     }
 
-    public Activity(String name, Duration length, ActivityType type, LocalTime startTime) {
+    public Activity(String name, Duration length, LocalTime startTime) {
         this.name = name;
         this.length = length;
-        this.type = type;
         this.startTime = startTime;
     }
 
