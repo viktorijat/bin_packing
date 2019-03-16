@@ -81,6 +81,6 @@ public class Activity {
 
     @Override
     public String toString() {
-        return startTime + " : " + name + " " + length.toMinutes();
+        return startTime + " : " + name + " : " + length.toMinutes();
     }
 }

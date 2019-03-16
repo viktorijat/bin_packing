@@ -1,11 +1,14 @@
 package com.bin.packing.processor;
 
+import com.bin.packing.loader.DataImporter;
 import com.bin.packing.model.Activity;
 import com.bin.packing.model.Team;
 import com.bin.packing.repository.ActivityRepository;
+import com.bin.packing.repository.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ public class BinPackingProcessor {
     @Autowired
     private ActivityRepository activityRepository;
 
+    @Autowired
+    private DataImporter dataImporter;
 
     private Activity findNextShortestActivity(List<Activity> activities) {
         return activities.stream().min(Comparator.comparing(Activity::getLength)).orElse(null);
@@ -83,7 +88,11 @@ public class BinPackingProcessor {
         }
     }
 
-    public void calculate() {
+    public void calculate(String[] args) throws IOException {
+
+        if (args.length == 1) {
+            dataImporter.loadActivities(args[0]);
+        }
 
         Iterable<Activity> all = activityRepository.findAll();
         List<Activity> myList = new ArrayList<>(((List<Activity>) all).size());

@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.io.IOException;
+
 @SpringBootApplication
 @EnableJpaRepositories
 public class PackingApplication {
@@ -17,9 +19,9 @@ public class PackingApplication {
 		PackingApplication.binPackingProcessor = binPackingProcessor;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(PackingApplication.class, args);
-		binPackingProcessor.calculate();
+		binPackingProcessor.calculate(args);
 
 	}
 
