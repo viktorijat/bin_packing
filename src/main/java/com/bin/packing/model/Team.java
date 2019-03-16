@@ -1,20 +1,12 @@
 package com.bin.packing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "team", uniqueConstraints = {@UniqueConstraint(columnNames = "teamId")})
@@ -39,12 +31,8 @@ public class Team {
     @JsonIgnore
     private LocalTime startOfLunchBreak;
 
-    public LocalTime getStartOfLunchBreak() {
+    private LocalTime getStartOfLunchBreak() {
         return startOfLunchBreak;
-    }
-
-    public void setStartOfLunchBreak(LocalTime startOfLunchBreak) {
-        this.startOfLunchBreak = startOfLunchBreak;
     }
 
     @JsonIgnore
@@ -58,7 +46,8 @@ public class Team {
         this.teamId = teamId;
     }
 
-    public Team() {}
+    public Team() {
+    }
 
     public Team(Long teamId, LocalTime startOfDay, LocalTime currentTime, LocalTime endOfDay, LocalTime startOfLunchBreak, Duration activitiesTotalTime) {
         this.teamId = teamId;
@@ -84,48 +73,45 @@ public class Team {
         return startOfLunchBreak.isBefore(this.currentTime) || startOfLunchBreak.plusHours(1).isAfter(this.currentTime);
     }
 
-    public boolean isEndOfDay() {
-        return endOfDay.isBefore(startOfDay.plus(activitiesTotalTime));
-    }
-
-    public LocalTime getLocalDateTime() {
-        return startOfLunchBreak;
-    }
-
     public Duration getActivitiesTotalTime() {
         return activitiesTotalTime;
-    }
-
-    public void setLocalDateTime(LocalTime startOfLunchBreak) {
-        this.startOfLunchBreak = startOfLunchBreak;
     }
 
     public List<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    private void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
 
-    public void setActivitiesTotalTime(Duration activitiesTotalTime) {
+    private void setActivitiesTotalTime(Duration activitiesTotalTime) {
         this.activitiesTotalTime = activitiesTotalTime;
     }
 
-    public LocalTime getEndOfDay() {
+    private LocalTime getEndOfDay() {
         return endOfDay;
     }
 
-    public void setEndOfDay(LocalTime endOfDay) {
-        this.endOfDay = endOfDay;
+    public LocalTime getCurrentTime() {
+        return currentTime;
     }
 
-    public LocalTime getStartOfDay() {
-        return startOfDay;
+    private void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
     }
 
-    public void setStartOfDay(LocalTime startOfDay) {
-        this.startOfDay = startOfDay;
+    public boolean isBeforeLunchBreak(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
+    }
+
+    public boolean isAfterLunchBreakAndBeforeEndOfDay(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isAfter(this.getStartOfLunchBreak().plusMinutes(30)) &&
+                isBeforeEndOfDay(activity);
+    }
+
+    private boolean isBeforeEndOfDay(Activity activity) {
+        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getEndOfDay());
     }
 
     @Override
@@ -135,40 +121,5 @@ public class Team {
                 ", activities=" + activities +
                 ", activitiesTotalTime=" + activitiesTotalTime +
                 '}';
-    }
-
-    public LocalTime getCurrentTime() {
-        return currentTime;
-    }
-
-    public void setCurrentTime(LocalTime currentTime) {
-        this.currentTime = currentTime;
-    }
-
-    public boolean isBeforeLunchBreak(Activity activity) {
-        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getStartOfLunchBreak());
-    }
-
-    public boolean timeIsBeforeLunchBreak() {
-        return this.getCurrentTime().isBefore(this.getStartOfLunchBreak());
-
-    }
-
-    public boolean isAfterLunchBreakAndBeforeEndOfDay(Activity activity) {
-        return this.getCurrentTime().plus(activity.getLength()).isAfter(this.getStartOfLunchBreak().plusMinutes(30)) &&
-                isBeforeEndOfDay(activity);
-    }
-
-    public boolean isAfterLunchBreakAndBeforeEndOfDay() {
-        return this.getCurrentTime().isAfter(this.getStartOfLunchBreak().plusMinutes(30)) &&
-                isBeforeEndOfDay();
-    }
-
-    public boolean isBeforeEndOfDay() {
-        return this.getCurrentTime().isBefore(this.getEndOfDay());
-    }
-
-    public boolean isBeforeEndOfDay(Activity activity) {
-        return this.getCurrentTime().plus(activity.getLength()).isBefore(this.getEndOfDay());
     }
 }
