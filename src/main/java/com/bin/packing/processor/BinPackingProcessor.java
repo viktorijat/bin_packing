@@ -4,14 +4,11 @@ import com.bin.packing.loader.DataImporter;
 import com.bin.packing.model.Activity;
 import com.bin.packing.model.Team;
 import com.bin.packing.repository.ActivityRepository;
-import com.bin.packing.repository.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -41,7 +38,7 @@ public class BinPackingProcessor {
         activities.remove(i);
     }
 
-    private void binPacking(List<Activity> activities, Duration size, int n) {
+    void binPacking(List<Activity> activities) {
 
         List<Team> teams = Arrays.asList(new Team(1L, startOfDay, startOfDay, endOfDay, startOfLunchBreak, Duration.ofMinutes(0)),
                 new Team(2L, startOfDay, startOfDay, endOfDay, startOfLunchBreak, Duration.ofMinutes(0)));
@@ -86,17 +83,5 @@ public class BinPackingProcessor {
             }
             System.out.println();
         }
-    }
-
-    public void calculate(String[] args) throws IOException {
-
-        if (args.length == 1) {
-            dataImporter.loadActivities(args[0]);
-        }
-
-        Iterable<Activity> all = activityRepository.findAll();
-        List<Activity> myList = new ArrayList<>(((List<Activity>) all).size());
-        all.forEach(myList::add);
-        binPacking(myList, Duration.ofHours(8), 22);
     }
 }

@@ -1,0 +1,82 @@
+[
+  {
+    "activity": "Duck Herding",
+    "time": "60min"
+  },
+  {
+    "activity": "Archery",
+    "time": "45min"
+  },
+  {
+    "activity": "Learning Magic Tricks",
+    "time": "40min"
+  },
+  {
+    "activity": "Laser Clay Shooting",
+    "time": "60min"
+  },
+  {
+    "activity": "Human Table Football",
+    "time": "30min"
+  },
+  {
+    "activity": "Buggy Driving",
+    "time": "30min"
+  },
+  {
+    "activity": "Salsa & Pickles",
+    "time": "sprint"
+  },
+  {
+    "activity": "2-wheeled Segways",
+    "time": "45min"
+  },
+  {
+    "activity": "Viking Axe Throwing",
+    "time": "60min"
+  },
+  {
+    "activity": "Giant Puzzle Dinosaurs",
+    "time": "30min"
+  },
+  {
+    "activity": "Giant Digital Graffiti",
+    "time": "60min"
+  },
+  {
+    "activity": "Cricket 2020",
+    "time": "60min"
+  },
+  {
+    "activity": "Wine Tasting",
+    "time": "sprint"
+  },
+  {
+    "activity": "Arduino Bonanza",
+    "time": "30min"
+  },
+  {
+    "activity": "Digital Tresure Hunt",
+    "time": "60min"
+  },
+  {
+    "activity": "Enigma Challenge",
+    "time": "45min"
+  },
+  {
+    "activity": "Monti Carlo or Bust",
+    "time": "60min"
+  },
+  {
+    "activity": "New Zealand Haka",
+    "time": "30min"
+  },
+  {
+    "activity": "Time Tracker",
+    "time": "sprint"
+  },
+  {
+    "activity": "Indiano Drizzle",
+    "time": "45min"
+  }
+]

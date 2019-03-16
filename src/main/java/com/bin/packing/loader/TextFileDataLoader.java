@@ -19,36 +19,18 @@ import java.util.stream.Collectors;
 @Service
 public class TextFileDataLoader implements DataImporter {
 
-    private static final String SEPARATOR = " ";
-
     @Autowired
     private ActivityRepository activityRepository;
+
+    @Autowired
+    private ActivityCreator activityCreator;
 
     public List<Activity> loadActivities(String fileName) throws IOException {
 
         return new BufferedReader(new FileReader(fileName))
                 .lines()
                 .skip(1)
-                .map(s -> {
-                    Activity activity = createActivity(s);
-                    return activityRepository.save(activity);
-                })
+                .map(a -> activityCreator.createActivity(a))
                 .collect(Collectors.toList());
-    }
-
-    private Activity createActivity(String activityString) {
-
-        String[] values = activityString.split(SEPARATOR);
-        return new Activity(StringUtils.join(ArrayUtils.remove(values, values.length - 1), SEPARATOR),
-                createActivityDuration(values[values.length - 1]));
-
-    }
-
-    private Duration createActivityDuration(String time) {
-
-        if (time.equals("sprint")) {
-            return Duration.ofMinutes(15);
-        }
-        return Duration.ofMinutes(Integer.parseInt(time.replace("min", "")));
     }
 }

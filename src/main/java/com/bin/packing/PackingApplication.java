@@ -1,6 +1,7 @@
 package com.bin.packing;
 
-import com.bin.packing.processor.BinPackingProcessor;
+import com.bin.packing.processor.ArgumentsProcessor;
+import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,17 +13,17 @@ import java.io.IOException;
 @EnableJpaRepositories
 public class PackingApplication {
 
-	private static BinPackingProcessor binPackingProcessor;
+    private static ArgumentsProcessor argumentsProcessor;
 
-	@Autowired
-	public PackingApplication(BinPackingProcessor binPackingProcessor) {
-		PackingApplication.binPackingProcessor = binPackingProcessor;
-	}
+    @Autowired
+    public PackingApplication(ArgumentsProcessor argumentsProcessor) {
+        PackingApplication.argumentsProcessor = argumentsProcessor;
+    }
 
-	public static void main(String[] args) throws IOException {
-		SpringApplication.run(PackingApplication.class, args);
-		binPackingProcessor.calculate(args);
+    public static void main(String[] args) throws IOException, ParseException {
+        SpringApplication.run(PackingApplication.class, args);
+        argumentsProcessor.processArguments(args);
 
-	}
+    }
 
 }
