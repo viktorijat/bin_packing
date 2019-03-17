@@ -40,7 +40,7 @@ public class ArgumentsProcessor {
         }
     }
 
-    private void printActivities(List<Team> teams) {
+    public void printActivities(List<Team> teams) {
         for (Team team : teams) {
             LOGGER.info("TEAM " + team.getTeamId());
             for (Activity activity : team.getActivities()) {

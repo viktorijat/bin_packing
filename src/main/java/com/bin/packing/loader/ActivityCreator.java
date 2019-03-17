@@ -22,7 +22,6 @@ class ActivityCreator {
     }
 
     private static Duration createActivityDuration(String time) {
-        System.out.println("TIME: " + time);
         if (time.equals("sprint")) {
             return Duration.ofMinutes(15);
         }

@@ -49,6 +49,10 @@ public class Team {
     public Team() {
     }
 
+    public Team(Long teamId) {
+        this.teamId = teamId;
+    }
+
     public Team(Long teamId, LocalTime startOfDay, LocalTime currentTime, LocalTime endOfDay, LocalTime startOfLunchBreak, Duration activitiesTotalTime) {
         this.teamId = teamId;
         this.startOfDay = startOfDay;
