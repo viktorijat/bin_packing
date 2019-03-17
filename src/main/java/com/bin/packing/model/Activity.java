@@ -1,17 +1,10 @@
 package com.bin.packing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
 
 @Entity
@@ -30,7 +23,7 @@ public class Activity {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="teamId", nullable=true)
+    @JoinColumn(name = "teamId")
     private Team team;
 
     public Long getId() {
@@ -81,6 +74,6 @@ public class Activity {
 
     @Override
     public String toString() {
-        return startTime + " : " + name + " : " + length.toMinutes();
+        return name + " : " + length.toMinutes();
     }
 }

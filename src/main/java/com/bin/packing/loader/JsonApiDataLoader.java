@@ -7,24 +7,20 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.stereotype.Component;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JsonFileDataLoader implements DataImporter {
-
+public class JsonApiDataLoader implements DataImporter {
     @Override
-    public List<Activity> loadActivities(String fileName) throws IOException, ParseException {
-
+    public List<Activity> loadActivities(String body) throws ParseException {
         JSONParser parser = new JSONParser();
-        JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(fileName));
+        JSONArray jsonArray = (JSONArray) parser.parse(body);
         List<Activity> activities = new ArrayList<>();
         for (Object o : jsonArray) {
             JSONObject activity = (JSONObject) o;
             activities.add(ActivityCreator.createActivity((String) activity.get("name"),
-                    (String) activity.get("time")));
+                    (String) activity.get("length")));
         }
         return activities;
     }

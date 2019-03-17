@@ -1,82 +1,82 @@
 [
   {
-    "activity": "Duck Herding",
-    "time": "60min"
+    "name": "Duck Herding",
+    "length": "60min"
   },
   {
-    "activity": "Archery",
-    "time": "45min"
+    "name": "Archery",
+    "length": "45min"
   },
   {
-    "activity": "Learning Magic Tricks",
-    "time": "40min"
+    "name": "Learning Magic Tricks",
+    "length": "40min"
   },
   {
-    "activity": "Laser Clay Shooting",
-    "time": "60min"
+    "name": "Laser Clay Shooting",
+    "length": "60min"
   },
   {
-    "activity": "Human Table Football",
-    "time": "30min"
+    "name": "Human Table Football",
+    "length": "30min"
   },
   {
-    "activity": "Buggy Driving",
-    "time": "30min"
+    "name": "Buggy Driving",
+    "length": "30min"
   },
   {
-    "activity": "Salsa & Pickles",
-    "time": "sprint"
+    "name": "Salsa & Pickles",
+    "length": "sprint"
   },
   {
-    "activity": "2-wheeled Segways",
-    "time": "45min"
+    "name": "2-wheeled Segways",
+    "length": "45min"
   },
   {
-    "activity": "Viking Axe Throwing",
-    "time": "60min"
+    "name": "Viking Axe Throwing",
+    "length": "60min"
   },
   {
-    "activity": "Giant Puzzle Dinosaurs",
-    "time": "30min"
+    "name": "Giant Puzzle Dinosaurs",
+    "length": "30min"
   },
   {
-    "activity": "Giant Digital Graffiti",
-    "time": "60min"
+    "name": "Giant Digital Graffiti",
+    "length": "60min"
   },
   {
-    "activity": "Cricket 2020",
-    "time": "60min"
+    "name": "Cricket 2020",
+    "length": "60min"
   },
   {
-    "activity": "Wine Tasting",
-    "time": "sprint"
+    "name": "Wine Tasting",
+    "length": "sprint"
   },
   {
-    "activity": "Arduino Bonanza",
-    "time": "30min"
+    "name": "Arduino Bonanza",
+    "length": "30min"
   },
   {
-    "activity": "Digital Tresure Hunt",
-    "time": "60min"
+    "name": "Digital Tresure Hunt",
+    "length": "60min"
   },
   {
-    "activity": "Enigma Challenge",
-    "time": "45min"
+    "name": "Enigma Challenge",
+    "length": "45min"
   },
   {
-    "activity": "Monti Carlo or Bust",
-    "time": "60min"
+    "name": "Monti Carlo or Bust",
+    "length": "60min"
   },
   {
-    "activity": "New Zealand Haka",
-    "time": "30min"
+    "name": "New Zealand Haka",
+    "length": "30min"
   },
   {
-    "activity": "Time Tracker",
-    "time": "sprint"
+    "name": "Time Tracker",
+    "length": "sprint"
   },
   {
-    "activity": "Indiano Drizzle",
-    "time": "45min"
+    "name": "Indiano Drizzle",
+    "length": "45min"
   }
 ]

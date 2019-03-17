@@ -1,6 +1,5 @@
 package com.bin.packing.processor;
 
-import com.bin.packing.loader.DataImporter;
 import com.bin.packing.model.Activity;
 import com.bin.packing.model.Team;
 import com.bin.packing.repository.ActivityRepository;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -23,9 +23,6 @@ public class BinPackingProcessor {
     @Autowired
     private ActivityRepository activityRepository;
 
-    @Autowired
-    private DataImporter dataImporter;
-
     private Activity findNextShortestActivity(List<Activity> activities) {
         return activities.stream().min(Comparator.comparing(Activity::getLength)).orElse(null);
     }
@@ -38,9 +35,10 @@ public class BinPackingProcessor {
         activities.remove(i);
     }
 
-    void binPacking(List<Activity> activities) {
+    private List<Team> binPacking(List<Activity> activities) {
 
-        List<Team> teams = Arrays.asList(new Team(1L, startOfDay, startOfDay, endOfDay, startOfLunchBreak, Duration.ofMinutes(0)),
+        List<Team> teams = Arrays.asList(
+                new Team(1L, startOfDay, startOfDay, endOfDay, startOfLunchBreak, Duration.ofMinutes(0)),
                 new Team(2L, startOfDay, startOfDay, endOfDay, startOfLunchBreak, Duration.ofMinutes(0)));
 
         for (Team team : teams) {
@@ -57,7 +55,8 @@ public class BinPackingProcessor {
                     team.addActivity(new Activity(next.getName(), next.getLength(), team.getCurrentTime()));
                     removeActivity(activities, i);
                 } else if (team.isBeforeLunchBreak(nextShortest)) {
-                    team.addActivity(new Activity(nextShortest.getName(), nextShortest.getLength(), team.getCurrentTime()));
+                    team.addActivity(new Activity(nextShortest.getName(), nextShortest.getLength(),
+                            team.getCurrentTime()));
                     removeActivity(activities, nextShortest);
                 } else if (team.isLunchTime() && !hasHadLunch) {
                     team.addActivity(new Activity("Lunch Break", Duration.ofMinutes(60), team.getCurrentTime()));
@@ -66,22 +65,23 @@ public class BinPackingProcessor {
                     team.addActivity(new Activity(next.getName(), next.getLength(), team.getCurrentTime()));
                     removeActivity(activities, i);
                 } else if (team.isAfterLunchBreakAndBeforeEndOfDay(nextShortest)) {
-                    team.addActivity(new Activity(nextShortest.getName(), nextShortest.getLength(), team.getCurrentTime()));
+                    team.addActivity(new Activity(nextShortest.getName(), nextShortest.getLength(),
+                            team.getCurrentTime()));
                     removeActivity(activities, nextShortest);
                 } else {
                     break;
                 }
             }
-            team.addActivity(new Activity("Staff Motivation Presentation", Duration.ofMinutes(60), team.getCurrentTime()));
+            team.addActivity(new Activity("Staff Motivation Presentation", Duration.ofMinutes(60),
+                    team.getCurrentTime()));
         }
+        return teams;
+    }
 
-
-        for (Team team : teams) {
-            System.out.println("TEAM " + team.getTeamId() + " - " + team.getCurrentTime() + " - " + team.getActivitiesTotalTime());
-            for (Activity activity : team.getActivities()) {
-                System.out.println(activity);
-            }
-            System.out.println();
-        }
+    public List<Team> callBinPacking() {
+        Iterable<Activity> all = activityRepository.findAll();
+        List<Activity> myList = new ArrayList<>(((List<Activity>) all).size());
+        all.forEach(myList::add);
+        return binPacking(myList);
     }
 }

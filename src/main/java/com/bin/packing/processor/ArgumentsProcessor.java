@@ -3,45 +3,49 @@ package com.bin.packing.processor;
 import com.bin.packing.loader.DataFactory;
 import com.bin.packing.loader.DataImporter;
 import com.bin.packing.model.Activity;
-import com.bin.packing.repository.ActivityRepository;
+import com.bin.packing.model.Team;
+import com.bin.packing.service.ActivityService;
 import com.google.common.io.Files;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class ArgumentsProcessor {
 
     @Autowired
-    private DataImporter dataImporter;
+    private ActivityService activityService;
 
-    @Autowired
-    private ActivityRepository activityRepository;
+    private final static Logger LOGGER = Logger.getLogger(ArgumentsProcessor.class.getName());
 
-    @Autowired
-    private BinPackingProcessor binPackingProcessor;
 
     public void processArguments(String[] args) throws IOException, ParseException {
 
-        System.out.println(args.toString());
         if (args.length == 1) {
             String fileExtension = Files.getFileExtension(args[0]);
-            DataFactory dataFactory = new DataFactory();
-            DataImporter dataImporter = dataFactory.getImporter(fileExtension);
+            DataImporter dataImporter = DataFactory.getImporter(fileExtension);
             if (dataImporter != null) {
                 List<Activity> activities = dataImporter.loadActivities(args[0]);
-                activityRepository.saveAll(activities);
+
+                List<Team> teams = activityService.addActivities(activities);
+                printActivities(teams);
+            }
+        } else {
+            LOGGER.info("You called the program with no arguments, you can add activities with the " +
+                    "api endpoint");
+        }
+    }
+
+    private void printActivities(List<Team> teams) {
+        for (Team team : teams) {
+            LOGGER.info("TEAM " + team.getTeamId());
+            for (Activity activity : team.getActivities()) {
+                LOGGER.info(activity.toString());
             }
         }
-
-
-        Iterable<Activity> all = activityRepository.findAll();
-        List<Activity> myList = new ArrayList<>(((List<Activity>) all).size());
-        all.forEach(myList::add);
-        binPackingProcessor.binPacking(myList);
     }
 }

@@ -6,25 +6,23 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Duration;
 
-public class ActivityCreator {
+class ActivityCreator {
 
     private static final String SEPARATOR = " ";
 
-    public Activity createActivity(String activityString) {
+    static Activity createActivity(String activityString) {
 
         String[] values = activityString.split(SEPARATOR);
-        return new Activity(StringUtils.join(ArrayUtils.remove(values, values.length - 1), SEPARATOR),
-                createActivityDuration(values[values.length - 1]));
-
+        return createActivity(StringUtils.join(ArrayUtils.remove(values, values.length - 1), SEPARATOR),
+                values[values.length - 1]);
     }
 
-    public Activity createActivity(String activityString, String timeString) {
+    static Activity createActivity(String activityString, String timeString) {
         return new Activity(activityString, createActivityDuration(timeString));
-
     }
 
-    private Duration createActivityDuration(String time) {
-
+    private static Duration createActivityDuration(String time) {
+        System.out.println("TIME: " + time);
         if (time.equals("sprint")) {
             return Duration.ofMinutes(15);
         }
